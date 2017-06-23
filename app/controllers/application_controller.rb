@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include DeviseTokenAuth::Concerns::SetUserByToken
     before_action :set_cross_origin_header
     def set_cross_origin_header
         response.headers['Access-Control-Allow-Origin'] = '*'
