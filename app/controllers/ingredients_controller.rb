@@ -1,29 +1,51 @@
 class IngredientsController < ApplicationController
    def index
-      @ingredients = Ingredient.where(recipe_id: params[:recipe_id]).to_a
-      render :json => @ingredients 
+    @ingredients = Ingredient.where(recipe_id: params[:recipe_id]).to_a
+    if @ingredients != nil
+        render :json => @ingredients
+    else
+        head :no_content
+    end 
    end
    
    def create
-     @ingredient = Ingredient.create!(ingredient_params)
-     render :json => @ingredient
+     @ingredient = Ingredient.new(ingredient_params)
+     if @ingredient.save
+            render :json => @ingredient
+        else
+            head :no_content
+        end 
    end
    
    def show
-    @ingredient = Ingredient.find(params[:id])
-    render :json => @ingredient
+    @ingredient = Ingredient.find_by_id(params[:id])
+    if @ingredient != nil
+            render :json => @ingredient
+        else
+            head :no_content
+        end 
    end
    
    def update
-       @ingredient = Ingredient.find(params[:id])
-       @ingredient.update(ingredient_params)
-       render :json => @ingredient
+       @ingredient = Ingredient.find_by_id(params[:id])
+      if @ingredient != nil
+        if @ingredient.update(ingredient_params)
+            render :json => @ingredient
+        else
+            render :json => @ingredient.errors.messages
+        end
+      else
+         head :no_content
+      end 
    end
    
    def destroy
-        @ingredient = Ingredient.find(params[:id])
-        @ingredient.destroy
-        head :no_content
+        @ingredient = Ingredient.find_by_id(params[:id])
+        if @ingredient.destroy
+          render :json => {deleted: true}
+        else
+          render :json => {deleted: false}
+        end
    end
    
    private
