@@ -1,8 +1,9 @@
 class RecipesController < ApplicationController
    def index
-       @recipes = Recipe.where(item_id: params[:item_id]).to_a
-       if @recipes != nil
-            render :json => @recipes
+       @recipe = Recipe.find_by(item_id: params[:item_id]) # first recipe only
+       # @recipes = Recipe.where(item_id: params[:item_id]).to_a # multiple recipes -> future feature
+       if @recipe != nil
+            render :json => @recipe
         else
             head :no_content
         end 
@@ -51,7 +52,7 @@ class RecipesController < ApplicationController
    private
    
    def recipe_params
-        params.permit(:item_id, :id, :cook_time, :name, :chef_name) 
+        params.permit(:item_id, :id, :cook_time, :name, :chef_name, :image) 
    end
     
 end

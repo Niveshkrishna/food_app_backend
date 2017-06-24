@@ -1,6 +1,6 @@
 class InstructionsController < ApplicationController
     def index 
-       @instructions = Instruction.where(recipe_id: params[:recipe_id]).to_a
+       @instructions = Instruction.where(recipe_id: params[:recipe_id]).order('serial_number').to_a
        if @instructions != nil
             render :json => @instructions
         else
