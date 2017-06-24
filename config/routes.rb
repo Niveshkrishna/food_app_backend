@@ -6,5 +6,6 @@ Rails.application.routes.draw do
           resources :ingredients
           resources :instructions
         end
+        resources :item_images
     end
 end

@@ -51,6 +51,6 @@ class IngredientsController < ApplicationController
    private
    
    def ingredient_params
-        params.permit(:recipe_id, :id, :content) 
+        params.permit(:recipe_id, :id, :content, :image) 
    end
 end

@@ -51,6 +51,6 @@ class InstructionsController < ApplicationController
    private
    
    def instruction_params
-        params.permit(:recipe_id, :id, :content, :serial_number) 
+        params.permit(:recipe_id, :id, :content, :serial_number, :image) 
    end
 end
