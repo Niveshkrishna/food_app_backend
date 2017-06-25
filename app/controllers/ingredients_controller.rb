@@ -1,8 +1,12 @@
 class IngredientsController < ApplicationController
    def index
     @ingredients = Ingredient.where(recipe_id: params[:recipe_id]).to_a
+    imageUrls = {}    
+    @ingredients.each do |x|
+        imageUrls[x.id] = imageUrl(x) if x.image.exists?
+    end
     if @ingredients != nil
-        render :json => @ingredients
+        render :json => {ingredients: @ingredients, imageUrls: imageUrls}
     else
         head :no_content
     end 
@@ -10,6 +14,7 @@ class IngredientsController < ApplicationController
    
    def create
      @ingredient = Ingredient.new(ingredient_params)
+     
      if @ingredient.save
             render :json => @ingredient
         else
@@ -20,7 +25,7 @@ class IngredientsController < ApplicationController
    def show
     @ingredient = Ingredient.find_by_id(params[:id])
     if @ingredient != nil
-            render :json => @ingredient
+            render :json => {ingredient: @ingredient,  imageUrl: imageUrl(@ingredient)}
         else
             head :no_content
         end 
@@ -53,4 +58,6 @@ class IngredientsController < ApplicationController
    def ingredient_params
         params.permit(:recipe_id, :id, :content, :image) 
    end
+   
+  
 end

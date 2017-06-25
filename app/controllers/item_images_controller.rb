@@ -1,8 +1,13 @@
 class ItemImagesController < ApplicationController
     def index
         @item_image_images = ItemImage.where(item_id: params[:item_id]).to_a
+        imagesArray = []
+    
         if @item_image_images != nil
-            render :json => @item_images
+            @item_image_images.each do |x|
+                imagesArray << "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{x.image.url}"
+            end
+            render :json => imagesArray
         else
             head :no_content
         end
