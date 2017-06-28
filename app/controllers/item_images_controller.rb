@@ -5,9 +5,9 @@ class ItemImagesController < ApplicationController
     
         if @item_image_images != nil
             @item_image_images.each do |x|
-                imagesArray << "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{x.image.url}"
+                imagesArray << "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{x.image.url}" if x.image.exists?
             end
-            render :json => imagesArray
+            render :json => imagesArray                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
         else
             head :no_content
         end
