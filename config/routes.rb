@@ -8,4 +8,6 @@ Rails.application.routes.draw do
         end
         resources :item_images
     end
+    get '/users/:user_id/recipes/:recipe_id', to: "recipe_statuses#get_status_by_ids" 
+    post '/users/:user_id/recipes/:recipe_id', to: "recipe_statuses#save_status_by_ids"
 end

@@ -9,4 +9,8 @@ class ApplicationController < ActionController::API
    def imageUrl(object)
     "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{object.image.url}"
    end
+    def index
+        
+    end
 end
+

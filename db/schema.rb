@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170624175045) do
+ActiveRecord::Schema.define(version: 20170701174813) do
+
+  create_table "ingredient_statuses", force: :cascade do |t|
+    t.boolean "status"
+    t.integer "user_id"
+    t.integer "recipe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "ingredient_id"
+  end
 
   create_table "ingredients", force: :cascade do |t|
     t.integer "recipe_id"
@@ -50,6 +59,28 @@ ActiveRecord::Schema.define(version: 20170624175045) do
     t.string "cuisine"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "recipe_id"
+  end
+
+  create_table "progresses", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "recipe_id"
+    t.integer "instruction_id"
+    t.integer "ingredient_id"
+    t.boolean "status_ingredient"
+    t.boolean "status_instruction"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_activity_tracker_id"
+  end
+
+  create_table "recipe_statuses", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "recipe_id"
+    t.text "ingredient_statuses"
+    t.text "instruction_statuses"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "recipes", force: :cascade do |t|
@@ -64,6 +95,13 @@ ActiveRecord::Schema.define(version: 20170624175045) do
     t.integer "image_file_size"
     t.datetime "image_updated_at"
     t.index ["item_id"], name: "index_recipes_on_item_id"
+  end
+
+  create_table "user_activity_trackers", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "recipe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
