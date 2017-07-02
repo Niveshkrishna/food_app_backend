@@ -2,12 +2,12 @@ class InstructionsController < ApplicationController
     
     def index 
        @instructions = Instruction.where(recipe_id: params[:recipe_id]).order('serial_number').to_a
-       imageUrls = {}
+=begin       imageUrls = {}
        @instructions.each do |x|
         imageUrls[x.serial_number] = imageUrl(x) if x.image.exists?
-       end
+=end       end
        if @instructions != nil
-            render :json => {instructions: @instructions, imageUrls: imageUrls}
+            render :json => @instructions #, imageUrls: imageUrls}
         else
             head :no_content
         end 
@@ -25,7 +25,7 @@ class InstructionsController < ApplicationController
    def show
     @instruction = Instruction.find_by_id(params[:id])
      if @instruction != nil
-            render :json => {instruction: @instruction, imageUrl: imageUrl(@instruction)}
+            render :json => @instruction #, imageUrl: imageUrl(@instruction)}
         else
             head :no_content
         end    
@@ -40,7 +40,7 @@ class InstructionsController < ApplicationController
                 render :json => @instruction.errors.messages
             end
         else
-            head :no_content
+            render :json => {not_found: true}
         end    
    end
    

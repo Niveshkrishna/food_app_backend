@@ -3,7 +3,7 @@ class RecipesController < ApplicationController
        @recipe = Recipe.find_by(item_id: params[:item_id]) # first recipe only
        # @recipes = Recipe.where(item_id: params[:item_id]).to_a # multiple recipes -> future feature
        if @recipe != nil
-            render :json => {recipe: @recipe, imageUrl: imageUrl(@recipe)}
+            render :json =>  @recipe #, imageUrl: imageUrl(@recipe)}
         else
             head :no_content
         end 
@@ -11,7 +11,10 @@ class RecipesController < ApplicationController
    
    def create
      @recipe = Recipe.new(recipe_params)
+     @item = Item.find(@recipe.item_id)
      if @recipe.save
+         @item.recipe_id = @recipe.id
+         @item.save
             render :json => @recipe
         else
             head :no_content
@@ -21,7 +24,7 @@ class RecipesController < ApplicationController
    def show
     @recipe = Recipe.find_by_id(params[:id])
     if @recipe != nil
-        render :json => {recipe: @recipe, imageUrl: imageUrl(@recipe)}
+        render :json =>  @recipe #, imageUrl: imageUrl(@recipe)}
     else
         head :no_content
     end

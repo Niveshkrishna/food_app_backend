@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170701174813) do
+ActiveRecord::Schema.define(version: 20170701184657) do
 
   create_table "ingredient_statuses", force: :cascade do |t|
     t.boolean "status"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170701174813) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
+    t.string "image_url"
   end
 
   create_table "instructions", force: :cascade do |t|
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20170701174813) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
+    t.string "image_url"
   end
 
   create_table "item_images", force: :cascade do |t|
@@ -94,6 +96,7 @@ ActiveRecord::Schema.define(version: 20170701174813) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
+    t.string "image_url"
     t.index ["item_id"], name: "index_recipes_on_item_id"
   end
 
