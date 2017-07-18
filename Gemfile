@@ -47,3 +47,4 @@ gem 'devise_token_auth'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'paperclip'
+gem 'will_paginate'

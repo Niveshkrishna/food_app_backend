@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170701184657) do
+ActiveRecord::Schema.define(version: 20170718081454) do
 
   create_table "ingredient_statuses", force: :cascade do |t|
     t.boolean "status"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20170701184657) do
     t.integer "image_file_size"
     t.datetime "image_updated_at"
     t.string "image_url"
+    t.float "quantity"
+    t.string "quantity_type"
   end
 
   create_table "instructions", force: :cascade do |t|
@@ -97,6 +99,9 @@ ActiveRecord::Schema.define(version: 20170701184657) do
     t.integer "image_file_size"
     t.datetime "image_updated_at"
     t.string "image_url"
+    t.text "about_info"
+    t.integer "chef_id"
+    t.integer "rating"
     t.index ["item_id"], name: "index_recipes_on_item_id"
   end
 
@@ -130,6 +135,7 @@ ActiveRecord::Schema.define(version: 20170701184657) do
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

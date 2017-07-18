@@ -1,4 +1,5 @@
 class RecipesController < ApplicationController
+   require "base64"
    def index
        @recipe = Recipe.find_by(item_id: params[:item_id]) # first recipe only
        # @recipes = Recipe.where(item_id: params[:item_id]).to_a # multiple recipes -> future feature
@@ -11,7 +12,9 @@ class RecipesController < ApplicationController
    
    def create
      @recipe = Recipe.new(recipe_params)
-     @item = Item.find(@recipe.item_id)
+    #@recipe.image = Base64.decode64(params[:image])  
+     @recipe.item_id = params[:item_id]
+         @item = Item.find(@recipe.item_id)
      if @recipe.save
          @item.recipe_id = @recipe.id
          @item.save
@@ -51,11 +54,21 @@ class RecipesController < ApplicationController
             render :json => {deleted: false}
         end
    end
+   def get_recipes_by_user_id
+       @recipes = Recipe.where(chef_id: params[:user_id]).to_a
+       if @recipes == nil
+           head :no_content
+       else 
+           render :json => @recipes
+       end
+   end
+   
    
    private
    
    def recipe_params
-        params.permit(:item_id, :id, :cook_time, :name, :chef_name, :image) 
+        #puts params.require(:recipe).permit!().to_h
+        params.require(:recipe).permit!().to_h
    end
     
 end

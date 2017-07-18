@@ -6,6 +6,7 @@ class IngredientsController < ApplicationController
         imageUrls[x.id] = imageUrl(x) if x.image.exists?
 =end    end
     if @ingredients != nil
+        
         render :json => @ingredients #, imageUrls: imageUrls}
     else
         head :no_content
@@ -14,11 +15,12 @@ class IngredientsController < ApplicationController
    
    def create
      @ingredient = Ingredient.new(ingredient_params)
-     
+     @ingredient.recipe_id = params[:recipe_id]
      if @ingredient.save
             render :json => @ingredient
         else
-            render :json => @ingredient.errors
+            puts @ingredient.errors.messages
+            render :json => @ingredient.errors.messages
         end 
    end
    
@@ -27,12 +29,12 @@ class IngredientsController < ApplicationController
     if @ingredient != nil
             render :json => @ingredient
         else
-            render :json => {not_found: trues}
+            render :json => {not_found: true}
         end 
    end
    
    def update
-       @ingredient = Ingredient.find_by_id(params[:id])
+      @ingredient = Ingredient.find_by_id(params[:id])
       if @ingredient != nil
         if @ingredient.update(ingredient_params)
             render :json => @ingredient
@@ -56,7 +58,7 @@ class IngredientsController < ApplicationController
    private
    
    def ingredient_params
-        params.permit(:recipe_id, :id, :content, :image) 
+        params.require(:ingredient).permit(:content, :image, :quantity_type, :quantity)
    end
    
   

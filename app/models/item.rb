@@ -4,4 +4,5 @@ class Item < ApplicationRecord
    # validates_presence_of :recipe_id
     has_one :recipe, dependent: :destroy
     has_many :item_images, dependent: :destroy
+    
 end
