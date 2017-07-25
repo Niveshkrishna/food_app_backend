@@ -23,7 +23,7 @@ class RecipeStatusesController < ApplicationController
     def save_status_by_ids
         status = RecipeStatus.find_by(id_params)
         if status == nil
-            puts "These are params: #{status_params}"
+            #puts "These are params: #{status_params}"
             status = RecipeStatus.new(id_params)
             status.ingredient_statuses = status_params[:ingredient_statuses] if status_params[:ingredient_statuses] != nil
             status.instruction_statuses = status_params[:instruction_statuses] if status_params[:instruction_statuses] != nil
@@ -34,7 +34,7 @@ class RecipeStatusesController < ApplicationController
                 render json: status.errors
             end
         else
-            puts "These are params: #{status_params}"
+            #puts "These are params: #{status_params}"
             if status.update_attributes(status_params)
                 render json: status
             else
@@ -42,13 +42,22 @@ class RecipeStatusesController < ApplicationController
             end
         end
     end
+    def get_status
+        @recipe_status = RecipeStatus.find_by(id_params)
+        if @recipe_status != nil
+            render json: @recipe_status
+        else 
+            head :no_content
+        end
+    end
     
     private
     def status_params
-        params.permit!.to_h[:recipe_status]
+        params.permit(:recipe,:recipe_status,:review,:rating).to_h
     end
     
     def id_params
+        
         params.permit(:user_id, :recipe_id).to_h
     end
 end

@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718081454) do
+ActiveRecord::Schema.define(version: 20170725073628) do
+
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "ingredient_statuses", force: :cascade do |t|
     t.boolean "status"
@@ -64,6 +71,14 @@ ActiveRecord::Schema.define(version: 20170718081454) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "recipe_id"
+    t.integer "price"
+  end
+
+  create_table "nutritions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "recipe_id"
+    t.integer "calories"
   end
 
   create_table "progresses", force: :cascade do |t|
@@ -85,6 +100,8 @@ ActiveRecord::Schema.define(version: 20170718081454) do
     t.text "instruction_statuses"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rating"
+    t.string "review"
   end
 
   create_table "recipes", force: :cascade do |t|
@@ -101,8 +118,16 @@ ActiveRecord::Schema.define(version: 20170718081454) do
     t.string "image_url"
     t.text "about_info"
     t.integer "chef_id"
-    t.integer "rating"
     t.index ["item_id"], name: "index_recipes_on_item_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.text "content"
+    t.integer "rating"
+    t.integer "recipe_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_activity_trackers", force: :cascade do |t|

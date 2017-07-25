@@ -5,9 +5,11 @@ class Recipe < ApplicationRecord
   #has_one :item
   has_many :instructions, dependent: :destroy
   has_many :ingredients,  dependent: :destroy
+  has_one :nutrition
   has_attached_file :image
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
   after_save :assign_image_url
+  has_many :reviews
   belongs_to :user,-> { where role: "chef" }, foreign_key: :chef_id
     def assign_image_url
         if self.image.exists?

@@ -63,6 +63,33 @@ class RecipesController < ApplicationController
        end
    end
    
+   def post_reviews
+       curr_review = Review.find_by(user_id: params[:user_id], recipe_id: params[:recipe_id])
+        if curr_review == nil
+            review = Review.new(review_params)
+            if review.save
+                render :json => review
+            else
+
+                render :json => curr_review.errors.messages
+            end
+        else
+            if curr_review.update_attributes(review_params)
+                render :json => curr_review
+            else
+                render :json => curr_review.errors.full_messages
+            end
+        end
+   end
+   
+    def get_reviews
+        reviews = Review.where(recipe_id: params[:recipe_id])
+        if reviews == nil
+            head :no_content
+        else
+            render json: reviews
+        end
+    end
    
    private
    
@@ -70,5 +97,7 @@ class RecipesController < ApplicationController
         #puts params.require(:recipe).permit!().to_h
         params.require(:recipe).permit!().to_h
    end
-    
+    def review_params
+        params.permit(:user_id,:recipe_id,:content, :rating)
+    end
 end
