@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170725073628) do
+ActiveRecord::Schema.define(version: 20170725165552) do
 
   create_table "cart_items", force: :cascade do |t|
     t.integer "item_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_url"
   end
 
   create_table "ingredient_statuses", force: :cascade do |t|
@@ -79,6 +80,19 @@ ActiveRecord::Schema.define(version: 20170725073628) do
     t.datetime "updated_at", null: false
     t.integer "recipe_id"
     t.integer "calories"
+    t.integer "protein"
+    t.integer "total_fat"
+    t.integer "saturated_fat"
+    t.integer "trans_fat"
+    t.integer "cholesterol"
+    t.integer "sodium"
+    t.integer "total_carb"
+    t.integer "dietary_fiber"
+    t.integer "sugars"
+    t.integer "vitamin_a"
+    t.integer "vitamin_c"
+    t.integer "calcium"
+    t.integer "iron"
   end
 
   create_table "progresses", force: :cascade do |t|
@@ -118,6 +132,7 @@ ActiveRecord::Schema.define(version: 20170725073628) do
     t.string "image_url"
     t.text "about_info"
     t.integer "chef_id"
+    t.integer "grams_per_serving"
     t.index ["item_id"], name: "index_recipes_on_item_id"
   end
 

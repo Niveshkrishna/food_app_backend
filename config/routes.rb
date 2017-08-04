@@ -19,8 +19,9 @@ Rails.application.routes.draw do
   get '/items/:item_id/recipes/:recipe_id/reviews', to: "recipes#get_reviews"
   
   #get '/users/:user_id/cart_items', to: "cart_items#index"
-  #post '/users/:user_id/cart_items', to: "carts#update"
+  post '/users/:user_id/cart_items/:id', to: "cart_items#create"
+  
   resources :users do
-    resources :cart_items, controller: 'cart_items'
+    resources :cart_items, controller: 'cart_items', only: [:create, :index, :destroy, :show]
   end
 end

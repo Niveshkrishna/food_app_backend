@@ -18,20 +18,25 @@ class CartItemsController < ApplicationController
     end
  
     def create
-        @cart_item = CartItem.new(user_id: params[:user_id],item_id: params[:item_id])
-            if @cart_item.save
+        @cart_item = CartItem.new(user_id: params[:user_id],item_id: params[:id])
+        image = ItemImage.find_by(item_id: params[:id])
+        if image != nil
+            @cart_item.image_url = "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{image.image.url}"
+        end
+         if @cart_item.save
                 render :json => @cart_item
             else
-                render :json => @cart_item.errors.messages
+                render :json => {:errors => @cart_item.errors.messages}, :status => 204
+    
             end
     end
     
     def destroy
        @cart_item = CartItem.find_by(user_id: params[:user_id], item_id: params[:id]) 
        if @cart_item.destroy
-            render :json => {deleted: true}
+            render :json => {deleted: true}, :status => 200
         else
-            render :json => {deleted: false}
+            render :json => {deleted: false}, :status => 204
         end
 
     end

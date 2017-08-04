@@ -1,5 +1,7 @@
 class Nutrition < ApplicationRecord
-    # Convention: kcal_per_serving -> {"x grams/y people" => "200"}
-    # serialize :kcal_per_serving, Hash
+=begin convention: Each row contains the quantities per gram of cooked recipe.
+    -> per gram only to be entered
+    -> any and all quantities to be entered in grams and not milligrams
+=end
     belongs_to :recipe
 end
