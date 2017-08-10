@@ -1,17 +1,22 @@
 class ItemImagesController < ApplicationController
     def index
-        @item_image_images = ItemImage.where(item_id: params[:item_id]).to_a
+        @item_image_images = ItemImage.where(item_id: params[:item_id])
         imagesArray = []
-    
-        if @item_image_images != nil
+        if @item_image_images != []
             @item_image_images.each do |x|
                 imagesArray << "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{x.image.url}" if x.image.exists?
             end
-            render :json => imagesArray                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+        render :json => imagesArray                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
         else
-            head :no_content
+            
+           imagesArray << "http://blog.doctoroz.com/wp-content/uploads/2015/11/dinner-plate.jpg"
+         
+                      render :json => imagesArray                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+
         end
+        
     end
+    
     
     def show
         @item_image = ItemImage.find_by_id(params[:id])

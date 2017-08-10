@@ -16,6 +16,7 @@ class IngredientsController < ApplicationController
    def create
      @ingredient = Ingredient.new(ingredient_params)
      @ingredient.recipe_id = params[:recipe_id]
+     @ingredient.image_url = "http://dreamicus.com/data/onion/onion-06.jpg"
      if @ingredient.save
             render :json => @ingredient
         else

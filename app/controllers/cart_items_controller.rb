@@ -1,7 +1,18 @@
 class CartItemsController < ApplicationController
     
     def index
-       @cart_items = CartItem.where(user_id: params[:user_id]) 
+       @items = CartItem.where(user_id: params[:user_id]) 
+       @cart_items = []
+       @items.all.each do |i|
+           b = ItemImage.find_by(item_id: i.item_id)
+           c = "http://www.foodgal.com/wp-content/uploads/2014/01/KQEDGettyImage.jpg"
+           if b != nil
+               c = "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{b.image.url}" if b.image.exists?
+           end
+           @cart_items << Item.find_by(id: i.item_id).attributes.merge(image: c) 
+       end
+       @cart_items = JSON(@cart_items)
+       puts 
        if @cart_items != nil
            render :json => @cart_items
        else
@@ -19,10 +30,7 @@ class CartItemsController < ApplicationController
  
     def create
         @cart_item = CartItem.new(user_id: params[:user_id],item_id: params[:id])
-        image = ItemImage.find_by(item_id: params[:id])
-        if image != nil
-            @cart_item.image_url = "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{image.image.url}"
-        end
+       
          if @cart_item.save
                 render :json => @cart_item
             else

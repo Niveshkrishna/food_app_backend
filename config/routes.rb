@@ -20,8 +20,12 @@ Rails.application.routes.draw do
   
   #get '/users/:user_id/cart_items', to: "cart_items#index"
   post '/users/:user_id/cart_items/:id', to: "cart_items#create"
-  
+    get '/search/:term', to: 'items#search_item'
+
   resources :users do
     resources :cart_items, controller: 'cart_items', only: [:create, :index, :destroy, :show]
+  end
+  resources :users do
+    resources :shopping_items, controller: 'shopping_items', only: [:create, :index, :destroy, :update]
   end
 end

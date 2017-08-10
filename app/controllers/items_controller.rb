@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-
+require 'will_paginate/array'
     def index
         @items = Item.all
         @items = Item.paginate(page: params[:page] ,per_page: 10)
@@ -50,11 +50,33 @@ class ItemsController < ApplicationController
             render :json => {deleted: false}
         end
     end
-    private
     
+    def search_item()
+        @items = Item.search(params[:term])
+
+        if !@items.blank?
+            @items = @items.paginate(page: params[:page] ,per_page: 10)
+            render :json => @items
+        elsif 
+           @recipes = Recipe.search(params[:term])
+           @items = []
+            if !@recipes.blank?
+                @recipes.all.each do |r|
+                    @items += Item.where(id: r.item_id)
+                end
+                @items = @items.paginate(page: params[:page] ,per_page: 10)
+                render :json => @items
+            else
+            head :no_content
+        end
+    end
+end
+    
+    private
     def item_params
         params.permit(:name, :cuisine)
     end
+    
 end
 
   
