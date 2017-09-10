@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
 require 'will_paginate/array'
+require 'json'
     def index
         @items = Item.all
         @items = Item.paginate(page: params[:page] ,per_page: 10)
@@ -67,11 +68,68 @@ require 'will_paginate/array'
                 @items = @items.paginate(page: params[:page] ,per_page: 10)
                 render :json => @items
             else
-            head :no_content
+                head :no_content
+            end
         end
     end
-end
     
+    def special_items_of_the_day
+            array = []
+            Item.all[0,5].each do |item|
+                hash = {item: item}
+                hash[:image_urls] = []
+                item.item_images.each do |img|
+                    hash[:image_urls] << imageUrl(img)
+                end
+                array << hash
+            end
+            render :json => array
+        
+=begin    
+        cuisines = [:american, :continental, :chinese, :french, :indian, :lebanese, :mexican, :pakistani]
+        special_object =  ($redis.get("special_items_of_the_day"))
+        p "special object", special_object
+        if special_object != nil
+            special_object = JSON.parse(special_object)
+            if Time.now - Time.parse(special_object["time"]) >= 86400
+                special_object["special_items"] = []
+                selected = cuisines.sample(5)
+                selected.each do |cuisine|
+                    item = Item.where(cuisine: cuisine).sample
+                    hash = {item: item}
+                    hash["image_urls"] = []
+                    item.item_images.each do |img|
+                        hash["image_urls"] << imageUrl(img)
+                    end
+                    special_object["special_items" ] << hash
+                end
+                special_object["time"] = Time.now
+                $redis.set("special_items_of_the_day", special_object.to_json)
+                render :json => special_object   
+            else
+                render :json => special_object
+            end
+        else
+            special_object = {}
+            special_object["special_items"] = []
+            special_object["time"] = Time.now
+            selected = cuisines.sample(5)
+            selected.each do |cuisine|
+                item = Item.where(cuisine: cuisine).sample
+                    hash = {item: item}
+                    hash["image_urls"] = []
+                    item.item_images.each do |img|
+                        hash["image_urls"] << imageUrl(img)
+                    end
+                    special_object["special_items" ] << hash
+            end
+            p special_object
+            $redis.set("special_items_of_the_day", special_object.to_json)
+            render :json => special_object
+        end
+=end
+
+    end
     private
     def item_params
         params.permit(:name, :cuisine)

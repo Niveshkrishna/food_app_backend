@@ -48,3 +48,6 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'paperclip'
 gem 'will_paginate'
+
+gem "redis"
+gem 'redis-namespace', github: "resque/redis-namespace"

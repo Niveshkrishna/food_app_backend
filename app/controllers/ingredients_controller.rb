@@ -35,7 +35,8 @@ class IngredientsController < ApplicationController
    end
    
    def update
-      @ingredient = Ingredient.find_by_id(params[:id])
+      @ingredient = Ingredient.find(params[:id])
+        p @ingredient, params[:id]
       if @ingredient != nil
         if @ingredient.update(ingredient_params)
             render :json => @ingredient
@@ -43,12 +44,12 @@ class IngredientsController < ApplicationController
             render :json => @ingredient.errors.messages
         end
       else
-        render :json => {not_found: trues}
+        render :json => {not_found: true}
       end 
    end
    
    def destroy
-        @ingredient = Ingredient.find_by_id(params[:id])
+        @ingredient = Ingredient.find_by(params[:id])
         if @ingredient.destroy
           render :json => {deleted: true}
         else
@@ -59,7 +60,7 @@ class IngredientsController < ApplicationController
    private
    
    def ingredient_params
-        params.require(:ingredient).permit(:content, :image, :quantity_type, :quantity)
+        params.permit(:id, :content, :image, :quantity_type, :quantity)
    end
    
   
