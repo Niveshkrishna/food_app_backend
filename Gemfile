@@ -45,7 +45,7 @@ gem "omniauth"
 # For authentication
 gem 'devise_token_auth'
 gem 'rack-cors', :require => 'rack/cors'
-
+gem 'omniauth-facebook'
 gem 'paperclip'
 gem 'will_paginate'
 
