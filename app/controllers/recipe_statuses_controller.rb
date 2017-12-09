@@ -20,6 +20,15 @@ class RecipeStatusesController < ApplicationController
         
     end
     
+    def get_shopping_bag_status_by_id
+        status = RecipeStatus.find_by(id_params)
+        if status != nil
+            render json: status.shopping_bag_status
+        else
+            head :no_content
+        end
+    end
+    
     def save_status_by_ids
         status = RecipeStatus.find_by(id_params)
         if status == nil
@@ -42,6 +51,7 @@ class RecipeStatusesController < ApplicationController
             end
         end
     end
+    
     def get_status
         @recipe_status = RecipeStatus.find_by(id_params)
         if @recipe_status != nil
@@ -51,11 +61,21 @@ class RecipeStatusesController < ApplicationController
         end
     end
     
+    def get_recipe_statuses
+        user = User.find(user_id_param["user_id"])
+        recipe_statuses = user.recipe_statuses
+        render json: recipe_statuses
+    end
+    
     private
+    
     def status_params
         params.permit(:recipe,:recipe_status,:review,:rating).to_h
     end
     
+    def user_id_param
+        params.permit(:user_id).to_h
+    end
     def id_params
         
         params.permit(:user_id, :recipe_id).to_h

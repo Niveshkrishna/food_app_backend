@@ -2,13 +2,36 @@ class ItemsController < ApplicationController
 require 'will_paginate/array'
 require 'json'
     def index
-        @items = Item.all
-        @items = Item.paginate(page: params[:page] ,per_page: 10)
+        @all_items = Item.all
+        @all_items = Item.paginate(page: params[:page] ,per_page: 10)
+        @items = []
+        @all_items.each do |item|
+            hash = item.as_json
+            hash[:imageUrls] = []
+            item.item_images.each do |img|
+                hash[:imageUrls] << "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{img.image.url}"
+            end
+            @items << hash
+        end
         if @items != nil
             render :json => @items
         else
             head :no_content
         end
+    end
+    
+    def all_items
+        @all_items = Item.all
+        @items = []
+        @all_items.each do |item|
+            hash = item.as_json
+            hash[:imageUrls] = []
+            item.item_images.each do |img|
+                hash[:imageUrls] << "http://food-app-thenightsaredarkandfullofterrors.c9users.io#{img.image.url}"
+            end
+            @items << hash
+        end
+        render json: @items 
     end
     
     def show

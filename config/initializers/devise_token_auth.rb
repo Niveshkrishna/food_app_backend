@@ -23,7 +23,6 @@ DeviseTokenAuth.setup do |config|
   # example, using the default '/omniauth', the github oauth2 provider will
   # redirect successful authentications to '/omniauth/github/callback'
   # config.omniauth_prefix = "/omniauth"
-
   # By default sending current password is not needed for the password update.
   # Uncomment to enforce current_password param to be checked before all
   # attribute updates. Set it to :password if you want it to be checked only if

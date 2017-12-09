@@ -1,9 +1,10 @@
 class User < ActiveRecord::Base
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable,
-          :omniauthable # :confirmable
- include DeviseTokenAuth::Concerns::User
+          :recoverable, :rememberable, :trackable, :validatable#, :omniauthable,
+        #  :omniauth_providers => [:facebook] # :confirmable
+  include DeviseTokenAuth::Concerns::User
+  devise :omniauthable
     has_many :reviews
     has_many :recipe_statuses
     has_many :cart_items
