@@ -27,10 +27,16 @@ Rails.application.routes.draw do
   #get '/users/:user_id/cart_items', to: "cart_items#index"
   post '/users/:user_id/cart_items/:id', to: "cart_items#create"
     get '/search/:term', to: 'items#search_item'
-
+    get '/users/:user_id/pocket/', to: "pockets#get_pocket_recipes"
+  post '/users/:user_id/pocket/', to: "pockets#create"
+  post '/pockets/:pocket_id/recipes/:recipe_id', to: "pockets#add_to_pocket"
+  delete '/pockets/:pocket_id/recipes/:recipe_id', to: "pockets#remove_from_pocket"
+  delete '/pockets/:pocket_id/', to: "pockets#clear_pocket"
   resources :users do
     resources :cart_items, controller: 'cart_items', only: [:create, :index, :destroy, :show]
   end
   resources :users do
     resources :shopping_items, controller: 'shopping_items', only: [:create, :index, :destroy, :update]  end
 end
+  
+  

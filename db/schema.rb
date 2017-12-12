@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171002083407) do
+ActiveRecord::Schema.define(version: 20171212065754) do
 
   create_table "cart_items", force: :cascade do |t|
     t.integer "item_id"
@@ -93,6 +93,19 @@ ActiveRecord::Schema.define(version: 20171002083407) do
     t.integer "vitamin_c"
     t.integer "calcium"
     t.integer "iron"
+  end
+
+  create_table "pockets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+  end
+
+  create_table "pockets_recipes", id: false, force: :cascade do |t|
+    t.integer "pocket_id"
+    t.integer "recipe_id"
+    t.index ["pocket_id"], name: "index_pockets_recipes_on_pocket_id"
+    t.index ["recipe_id"], name: "index_pockets_recipes_on_recipe_id"
   end
 
   create_table "progresses", force: :cascade do |t|
