@@ -75,24 +75,24 @@ require 'json'
         end
     end
     
-    def search_item()
+    def search_item
         @items = Item.search(params[:term])
-
         if !@items.blank?
             @items = @items.paginate(page: params[:page] ,per_page: 10)
             render :json => @items
-        elsif 
+         else
            @recipes = Recipe.search(params[:term])
            @items = []
             if !@recipes.blank?
                 @recipes.all.each do |r|
-                    @items += Item.where(id: r.item_id)
+                    @items << Item.where(id: r.item_id)
                 end
                 @items = @items.paginate(page: params[:page] ,per_page: 10)
                 render :json => @items
             else
                 head :no_content
             end
+
         end
     end
     
